@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$TROLLKING | Every Cycle Needs a Villain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&family=Comic+Neue:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        :root {
+            --troll-green: #3d7d52;
+            --troll-dark: #0d120e;
+            --troll-yellow: #ffd13b;
+            --troll-purple: #8e44ad;
+            --troll-red: #c0392b;
+            --comic-black: #111112;
+        }
+
+        body {
+            background-color: var(--troll-dark);
+            color: white;
+            font-family: 'Comic Neue', cursive;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><text y="20" font-size="20">👑</text></svg>'), auto;
+        }
+
+        h1,
+        h2,
+        h3,
+        .bangers {
+            font-family: 'Bangers', cursive;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .marker {
+            font-family: 'Permanent Marker', cursive;
+        }
+
+        .comic-card {
+            background: white;
+            color: var(--comic-black);
+            border: 4px solid var(--comic-black);
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.9);
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .comic-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 12px 16px 0px rgba(0, 0, 0, 0.9);
+        }
+
+        .btn-main {
+            background: var(--troll-yellow);
+            color: black;
+            border: 4px solid black;
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.9);
+            border-radius: 12px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+        }
+
+        .btn-main:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 9px 9px 0px rgba(0, 0, 0, 0.9);
+            background: #fff;
+        }
+
+        .btn-main:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9);
+        }
+
+        .marquee {
+            background: black;
+            color: var(--troll-yellow);
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 12px 0;
+            border-bottom: 4px solid #333;
+        }
+
+        .marquee-inner {
+            display: inline-block;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee-reverse {
+            display: inline-block;
+            animation: marquee-rev 30s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes marquee-rev {
+            0% {
+                transform: translateX(-50%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--troll-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--troll-yellow);
+            border: 3px solid var(--troll-dark);
+            border-radius: 10px;
+        }
+
+        .typing::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .text-glow {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(253, 209, 59, 0.4);
+        }
+
+        /* Elegant Nav Active State */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--troll-yellow);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link.active::after,
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--troll-yellow) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Preloader Animations */
+        @keyframes loading-bar {
+            0% {
+                width: 0%;
+            }
+
+            40% {
+                width: 60%;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        .animate-spin-slow {
+            animation: spin 3s linear infinite;
+        }
+
+        body.loading-active {
+            overflow: hidden;
+        }
+
+        /* Click Spawn Text Effect */
+        .click-spawn {
+            position: absolute;
+            pointer-events: none;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.75rem;
+            text-shadow: 3px 3px 0px #000;
+            animation: float-fade-up 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            z-index: 9999;
+        }
+
+        @keyframes float-fade-up {
+            0% {
+                transform: translate(-50%, -50%) translateY(0) scale(0.6) rotate(-5deg);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) translateY(-120px) scale(1.3) rotate(15deg);
+                opacity: 0;
+            }
+        }
+
+        /* Floating background particles */
+        .floating-particle {
+            position: absolute;
+            pointer-events: none;
+            font-family: 'Bangers', cursive;
+            font-size: 3rem;
+            color: var(--troll-green);
+            opacity: 0.08;
+            z-index: 1;
+            animation: particle-float 15s linear infinite;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.08;
+            }
+            90% {
+                opacity: 0.08;
+            }
+            100% {
+                transform: translateY(-400px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body :class="loading ? 'loading-active' : ''" x-data="{ 
+        loading: true,
+        lightbox: false, 
+        imgSource: '', 
+        faqOpen: null, 
+        mobileMenu: false,
+        activeMemeIndex: 0,
+        memeStack: [
+            { img: 'images/meme1.jpg', title: 'U MAD BRO?', angle: '-rotate-3', color: 'bg-yellow-300' },
+            { img: 'images/meme2.jpg', title: 'VILLAIN ERA', angle: 'rotate-2', color: 'bg-red-400' },
+            { img: 'images/meme3.jpg', title: 'CONQUER CRYPTO', angle: '-rotate-1', color: 'bg-purple-300' },
+            { img: 'images/meme4.jpg', title: 'FINAL BOSS', angle: 'rotate-3', color: 'bg-green-400' },
+            { img: 'images/meme5.jpg', title: 'LAUNCH SOON', angle: '-rotate-2', color: 'bg-blue-300' },
+            { img: 'images/meme6.jpg', title: 'JOIN THE KINGDOM', angle: 'rotate-1', color: 'bg-indigo-400' }
+        ]
+    }" x-init="setTimeout(() => loading = false, 1800)">
+
+    <!-- 0. Epic Preloader -->
+    <div x-show="loading" x-transition.opacity.duration.800ms
+        class="fixed inset-0 z-[100] bg-[#0d120e] flex flex-col items-center justify-center border-[16px] border-black">
+        <div class="relative w-32 h-32 mb-8 animate-bounce">
+            <div class="absolute inset-0 bg-[#ffd13b] rounded-full blur-[30px] opacity-60 animate-pulse"></div>
+            <img src="images/troll.jpg" alt="Troll King Logo"
+                class="relative w-full h-full object-cover rounded-full border-[6px] border-black shadow-[10px_10px_0_rgba(0,0,0,1)] animate-spin-slow">
+        </div>
+        <h2
+            class="text-4xl md:text-5xl bangers text-[#ffd13b] drop-shadow-[4px_4px_0_rgba(0,0,0,1)] tracking-widest flex gap-2">
+            SUMMONING THE VILLAIN<span class="typing">...</span>
+        </h2>
+        <div
+            class="w-64 h-6 bg-white rounded-full mt-8 border-4 border-black overflow-hidden relative shadow-[5px_5px_0_rgba(0,0,0,1)]">
+            <div class="absolute top-0 left-0 h-full bg-[#ffd13b] animate-[loading-bar_1.8s_ease-in-out_forwards]">
+                <div
+                    class="w-full h-full bg-[linear-gradient(45deg,rgba(255,255,255,0.2)25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)50%,rgba(255,255,255,0.2)75%,transparent_75%,transparent)] bg-[length:20px_20px]">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. Marquee Header -->
+    <div class="marquee relative z-[60]">
+        <div class="marquee-inner bangers text-2xl">
+            👑 TROLL KING IS COMING! 👑 EVERY CYCLE NEEDS A VILLAIN! 👑 CONTRACT ADDRESS TBA! 👑 U MAD BRO? 👑 JOIN THE Telegram CONQUEST! 👑 TROLL KING IS COMING! 👑 CONTRACT ADDRESS TBA! 👑
+        </div>
+    </div>
+
+    <!-- 1.5 Header / Nav -->
+    <header
+        class="sticky top-0 z-50 bg-[#0d120e]/90 backdrop-blur-lg border-b-4 border-black shadow-[0_10px_20px_rgba(0,0,0,0.3)] transition-all overflow-visible">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center h-[80px]">
+            <a href="#"
+                class="flex items-center gap-3 drop-shadow-[2px_2px_0_rgba(0,0,0,1)] hover:scale-105 transition-transform group">
+                <img src="images/troll.jpg" alt="Troll King Logo"
+                    class="w-12 h-12 object-cover rounded-full border-2 border-white shadow-[2px_2px_0_rgba(0,0,0,1)] group-hover:rotate-12 transition-transform">
+                <span class="text-4xl bangers text-[#ffd13b] uppercase"><span class="text-white">TROLL</span> KING</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden lg:flex gap-10 marker text-2xl h-full items-center">
+                <a href="#about"
+                    class="nav-link text-white hover:text-[#ffd13b] hover:-translate-y-1 transition-all drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">Villainy</a>
+                <a href="#stats"
+                    class="nav-link text-white hover:text-[#ffd13b] hover:-translate-y-1 transition-all drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">Conquest</a>
+                <a href="#tokenomics"
+                    class="nav-link text-white hover:text-[#ffd13b] hover:-translate-y-1 transition-all drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">Trollnomics</a>
+                <a href="#roadmap"
+                    class="nav-link text-white hover:text-[#ffd13b] hover:-translate-y-1 transition-all drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">Campaign</a>
+                <a href="#buy"
+                    class="nav-link text-white hover:text-[#ffd13b] hover:-translate-y-1 transition-all drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">Join Us</a>
+            </nav>
+
+            <!-- Desktop Button -->
+            <div class="hidden lg:flex gap-4">
+                <a href="https://t.me/trollkingcom" target="_blank" class="btn-main px-8 py-3 text-3xl">Join Telegram</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button
+                class="lg:hidden text-white text-4xl hover:text-[#ffd13b] transition-colors drop-shadow-[2px_2px_0_rgba(0,0,0,1)]"
+                @click="mobileMenu = !mobileMenu">☰</button>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div x-show="mobileMenu" x-collapse.duration.300ms
+            class="lg:hidden bg-[#0d120e] border-t-2 border-black border-b-4 absolute w-full left-0 origin-top shadow-2xl">
+            <div class="flex flex-col items-center py-6 gap-6 marker text-3xl">
+                <a href="#about" @click="mobileMenu = false"
+                    class="nav-link text-white hover:text-[#ffd13b] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] w-full text-center py-2">Villainy</a>
+                <a href="#stats" @click="mobileMenu = false"
+                    class="nav-link text-white hover:text-[#ffd13b] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] w-full text-center py-2">Conquest</a>
+                <a href="#tokenomics" @click="mobileMenu = false"
+                    class="nav-link text-white hover:text-[#ffd13b] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] w-full text-center py-2">Trollnomics</a>
+                <a href="#roadmap" @click="mobileMenu = false"
+                    class="nav-link text-white hover:text-[#ffd13b] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] w-full text-center py-2">Campaign</a>
+                <a href="#buy" @click="mobileMenu = false"
+                    class="nav-link text-white hover:text-[#ffd13b] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] w-full text-center py-2">How to Join</a>
+                <a href="https://t.me/trollkingcom" target="_blank" @click="mobileMenu = false" class="btn-main px-12 py-4 text-3xl mt-4 z-10 relative">Join Telegram</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Hero Section -->
+    <section id="home"
+        class="relative min-h-[calc(100vh-80px)] flex items-center justify-center pt-10 pb-20 overflow-hidden bg-cover bg-center"
+        style="background-image: linear-gradient(to bottom, rgba(13, 18, 14, 0.75), rgba(13, 18, 14, 0.93)), url('images/troll.jpg');">
+        <!-- Floating shapes background -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+            <div
+                class="absolute top-10 left-10 w-32 h-32 bg-[#ffd13b] rounded-full mix-blend-overlay blur-xl animate-pulse">
+            </div>
+            <div class="absolute bottom-20 right-20 w-64 h-64 bg-[#8e44ad] rounded-full mix-blend-overlay blur-3xl animate-pulse"
+                style="animation-delay: 2s;"></div>
+        </div>
+
+        <div class="container mx-auto px-6 grid lg:grid-cols-2 items-center gap-16 relative z-10 w-full">
+            <div data-aos="fade-right" class="text-center lg:text-left flex flex-col items-center lg:items-start">
+                <p class="text-[#ffd13b] bangers text-3xl tracking-widest drop-shadow-md mb-2">👑 EVERY CYCLE NEEDS A VILLAIN</p>
+                <h1
+                    class="text-[4rem] md:text-[6rem] lg:text-[8rem] mb-2 text-white drop-shadow-[5px_5px_0_rgba(0,0,0,1)] leading-none text-glow uppercase">
+                    TROLL <span class="text-[#ffd13b]">KING</span>
+                </h1>
+                <p
+                    class="marker text-2xl md:text-3xl lg:text-4xl mb-8 text-black bg-[#ffd13b] border-4 border-black rounded-xl inline-block px-6 py-3 shadow-[6px_6px_0_rgba(0,0,0,1)] transform -rotate-2">
+                    U MAD BRO?
+                </p>
+                <p class="text-2xl md:text-3xl font-bold mb-6 text-white max-w-xl leading-relaxed drop-shadow-lg bangers tracking-wide text-[#3d7d52]">
+                    “Every cycle needs a villain.”
+                </p>
+                <p class="text-xl md:text-2xl font-bold mb-8 text-gray-300 max-w-xl leading-relaxed">
+                    Troll King isn’t here to save crypto. He’s here to conquer it. The era of soft memes is over—join the conquest before we launch.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
+                    <a href="https://t.me/trollkingcom" target="_blank" class="btn-main px-12 py-5 text-4xl whitespace-nowrap text-center">Join Telegram</a>
+                    <a href="https://x.com/UMADBRO1023/status/2058251365650993647?s=20" target="_blank" class="btn-main px-12 py-5 text-4xl bg-black text-white hover:text-black border-4 border-white text-center">Join X / Twitter</a>
+                </div>
+            </div>
+            <div data-aos="zoom-in" data-aos-duration="1200" class="relative flex justify-center lg:justify-end">
+                <div
+                    class="absolute inset-0 bg-[#ffd13b] rounded-full blur-[100px] opacity-20 animate-pulse translate-y-10">
+                </div>
+                <img src="images/meme2.jpg" alt="Hero Meme"
+                    class="w-full max-w-lg lg:max-w-xl mx-auto drop-shadow-[0_40px_35px_rgba(0,0,0,0.6)] transform hover:scale-105 hover:-translate-y-4 transition duration-500 relative z-10 border-8 border-black rounded-3xl comic-card object-cover aspect-square">
+            </div>
+        </div>
+    </section>
+
+    <!-- Slanted Marquee 1 (Divider) -->
+    <div class="relative z-30 -mt-6 -mb-6 transform -rotate-2 overflow-hidden bg-[#ffd13b] text-black border-y-4 border-black py-3 shadow-[0_4px_15px_rgba(0,0,0,0.6)]">
+        <div class="marquee-inner bangers text-2xl whitespace-nowrap">
+            👑 TROLL KING LAUNCHING SOON // JOIN THE VILLAIN ERA // U MAD BRO? // LAUNCHING SOON // TROLL KING LAUNCHING SOON // JOIN THE VILLAIN ERA // U MAD BRO? // TROLL KING LAUNCHING SOON //
+        </div>
+    </div>
+
+    <!-- 3. About / Lore Section -->
+    <section id="about" class="py-32 bg-[#121b14] text-white border-y-8 border-black relative">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row gap-16 items-center max-w-7xl mx-auto">
+                <div class="lg:w-1/2 w-full relative" data-aos="fade-right">
+                    <div
+                        class="absolute inset-0 bg-[var(--troll-yellow)] translate-x-4 translate-y-4 border-4 border-black rounded-3xl opacity-100 shadow-[4px_4px_0_rgba(0,0,0,1)]">
+                    </div>
+                    <img src="images/meme4.jpg"
+                        class="relative w-full aspect-[4/3] object-cover border-4 border-black rounded-3xl shadow-[8px_8px_0_rgba(0,0,0,1)] hover:scale-[1.02] transition-transform z-10 bg-white"
+                        alt="Troll King Lore">
+                </div>
+                <div class="lg:w-1/2 w-full flex flex-col justify-center" data-aos="fade-left">
+                    <h2 class="text-6xl md:text-7xl mb-8 drop-shadow-[3px_3px_0_rgba(0,0,0,0.2)]">WHY CRYPTO NEEDS A <span
+                            class="text-[#ffd13b]">VILLAIN</span></h2>
+                    <p class="text-2xl mb-8 font-bold leading-relaxed text-gray-300">
+                        Good guy memes were great. They promised community, friendship, and cozy ponds. But then they got soft. They got corporate. They got... boring.
+                    </p>
+                    <div class="comic-card p-8 bg-[#ffd13b] mb-8 border-4 border-black border-dashed text-black">
+                        <p class="marker text-2xl leading-relaxed">"Every cycle needs a villain. When the market is filled with copycat heroes, the Troll King rises to claim the crown."</p>
+                    </div>
+
+                    <!-- Mini Highlights Carousel -->
+                    <div x-data="{ slide: 0 }"
+                        class="relative overflow-hidden h-28 bg-[#0d120e] border-4 border-black rounded-2xl p-4 shadow-[6px_6px_0_rgba(0,0,0,1)]">
+                        <div class="absolute w-full h-full left-0 top-0 transition-transform duration-500 ease-in-out px-4 flex flex-col"
+                            :style="`transform: translateY(-${slide * 100}%)`">
+                            <div class="h-28 flex items-center shrink-0 font-bold text-[#ffd13b] text-2xl md:text-3xl">
+                                <span class="mr-4 text-4xl">👑</span> No Saviors. Only Trolls.
+                            </div>
+                            <div class="h-28 flex items-center shrink-0 font-bold text-[#c0392b] text-2xl md:text-3xl">
+                                <span class="mr-4 text-4xl">🔥</span> LP Burnt to the Ashes.
+                            </div>
+                            <div class="h-28 flex items-center shrink-0 font-bold text-[#8e44ad] text-2xl md:text-3xl">
+                                <span class="mr-4 text-4xl">😈</span> U MAD BRO? 0% Tax.
+                            </div>
+                        </div>
+                        <div class="hidden">
+                            <template x-init="setInterval(() => slide = (slide + 1) % 3, 3000)"></template>
+                        </div>
+                    </div>
+
+                    <!-- Cope Accelerator Card -->
+                    <div x-data="{ count: 120539, meter: 72 }" class="comic-card p-6 bg-[#1a1223] border-4 border-black text-white mt-8 shadow-[6px_6px_0_rgba(0,0,0,1)] relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-[#8e44ad]/10 to-transparent pointer-events-none"></div>
+                        <h4 class="text-3xl bangers text-[#ffd13b] mb-2 tracking-wider flex items-center justify-between">
+                            <span>COPE RADAR INDICATOR</span>
+                            <span class="text-2xl text-red-500 animate-pulse">● LIVE</span>
+                        </h4>
+                        <p class="text-sm font-bold text-gray-400 mb-4">Click below to feed the Troll King with the coping energy of sidelined buyers.</p>
+                        
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-[#0d120e] border-2 border-black h-8 rounded-lg overflow-hidden relative mb-4">
+                            <div class="h-full bg-gradient-to-r from-[#c0392b] via-[#8e44ad] to-[#ffd13b] transition-all duration-300" :style="`width: ${meter}%`"></div>
+                            <span class="absolute inset-0 flex items-center justify-center font-bold text-sm tracking-widest text-white uppercase drop-shadow-[1px_1px_0_rgba(0,0,0,1)]" x-text="`COPE LEVEL: ${meter}% (CRITICAL)`"></span>
+                        </div>
+                        
+                        <!-- Controls -->
+                        <div class="flex justify-between items-center gap-4">
+                            <div class="text-left">
+                                <p class="text-xs text-gray-400 font-bold uppercase">Total Trolled</p>
+                                <h5 class="text-2xl bangers text-white" x-text="count.toLocaleString()">120,539</h5>
+                            </div>
+                            <button @click="count++; meter = Math.min(100, meter + 1); if(meter >= 100) { meter = 50; count += 99; };"
+                                    class="btn-main px-4 py-2 text-xl bg-[#ffd13b] text-black border-2 border-black shadow-[3px_3px_0_rgba(0,0,0,1)] hover:translate-y-0 active:translate-y-0 active:shadow-[1px_1px_0_rgba(0,0,0,1)]">
+                                FEED COPE 😈
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slanted Marquee 2 (Divider) -->
+    <div class="relative z-30 -mt-6 -mb-6 transform rotate-1 overflow-hidden bg-[#8e44ad] text-white border-y-4 border-black py-3 shadow-[0_4px_15px_rgba(0,0,0,0.6)]">
+        <div class="marquee-inner marquee-reverse bangers text-2xl whitespace-nowrap">
+            😈 CONTRACT ADDRESS TBA // LIQUIDITY BURNT AT LAUNCH // 0% TAX // LAUNCHING SOON // CONTRACT ADDRESS TBA // LIQUIDITY BURNT AT LAUNCH // 0% TAX //
+        </div>
+    </div>
+
+    <!-- 4. Live Chart + Stats -->
+    <section id="stats" class="py-32 bg-[#0d120e] relative border-b-8 border-black">
+        <div
+            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+')] opacity-20 hover:opacity-10 transition-opacity">
+        </div>
+        <div class="container mx-auto px-6 max-w-7xl relative z-10">
+            <h2 class="text-7xl text-center mb-20 text-[#ffd13b] drop-shadow-[4px_4px_0_rgba(0,0,0,1)] text-glow">TROLL RADAR</h2>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 mb-20">
+                <div class="comic-card p-8 text-center bg-white flex flex-col justify-center min-h-[160px]"
+                    data-aos="flip-left" data-aos-duration="800">
+                    <p class="text-lg font-black uppercase text-gray-500 tracking-wider mb-2">Price USD</p>
+                    <h3 class="text-4xl lg:text-5xl text-[#3d7d52] font-black">$TBA</h3>
+                </div>
+                <div class="comic-card p-8 text-center bg-white flex flex-col justify-center min-h-[160px]"
+                    data-aos="flip-left" data-aos-duration="800" data-aos-delay="100">
+                    <p class="text-lg font-black uppercase text-gray-500 tracking-wider mb-2">Market Cap</p>
+                    <h3 class="text-4xl lg:text-5xl text-[#8e44ad] font-black">$TBA</h3>
+                </div>
+                <div class="comic-card p-8 text-center bg-white flex flex-col justify-center min-h-[160px]"
+                    data-aos="flip-left" data-aos-duration="800" data-aos-delay="200">
+                    <p class="text-lg font-black uppercase text-gray-500 tracking-wider mb-2">Holders</p>
+                    <h3 class="text-4xl lg:text-5xl text-[#c0392b] font-black">TBA</h3>
+                </div>
+                <div class="comic-card p-8 text-center bg-white flex flex-col justify-center min-h-[160px]"
+                    data-aos="flip-left" data-aos-duration="800" data-aos-delay="300">
+                    <p class="text-lg font-black uppercase text-gray-500 tracking-wider mb-2">Liquidity</p>
+                    <h3 class="text-4xl lg:text-5xl text-[#c0392b] font-black">BURNT 🔥</h3>
+                </div>
+            </div>
+
+            <!-- Dexscreener Embed Placeholder -->
+            <div id="chart"
+                class="comic-card bg-[#121b14] border-8 rounded-3xl overflow-hidden shadow-[12px_12px_0_rgba(0,0,0,1)] h-[450px] w-full relative flex flex-col items-center justify-center p-6 text-center border-black"
+                data-aos="fade-up">
+                <!-- Retro grid lines overlay -->
+                <div class="absolute inset-0 pointer-events-none opacity-[0.03]" style="background-image: linear-gradient(0deg, #fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+                
+                <div class="relative z-10 flex flex-col items-center max-w-2xl text-white">
+                    <div class="w-20 h-20 rounded-full bg-[#c0392b]/20 border-4 border-[#c0392b] flex items-center justify-center text-4xl mb-6 animate-pulse">
+                        ⚠️
+                    </div>
+                    <h3 class="text-4xl md:text-5xl bangers text-[#ffd13b] mb-4 tracking-widest">RADAR RADIAL OFFLINE</h3>
+                    <p class="marker text-xl md:text-2xl text-white mb-6">
+                        "The Troll King's token has not launched yet. The chart radar will align the moment liquidity is injected."
+                    </p>
+                    <div class="inline-block bg-[#0d120e] border-4 border-black p-4 rounded-xl mb-6 shadow-[4px_4px_0_rgba(0,0,0,1)] font-mono text-lg text-gray-400">
+                        STATUS: <span class="text-[#ffd13b] font-bold animate-pulse">AWAITING DEPLOYMENT</span> | CA: <span class="text-[#c0392b] font-bold">TBA</span>
+                    </div>
+                    <a href="https://t.me/trollkingcom" target="_blank" class="btn-main px-8 py-4 text-2xl">Get Telegram Alerts</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Token Mechanics -->
+    <section id="tokenomics" class="py-32 bg-[var(--troll-yellow)] text-black border-b-8 border-black overflow-hidden">
+        <div class="container mx-auto px-6 text-center max-w-7xl">
+            <h2 class="text-7xl lg:text-[6rem] mb-24 drop-shadow-[4px_4px_0_rgba(255,255,255,1)]" data-aos="zoom-in">
+                <span class="underline decoration-wavy decoration-[#8e44ad]">TROLLNOMICS</span>
+            </h2>
+            <div class="flex flex-wrap justify-center gap-12 lg:gap-20">
+                <!-- Card 1 Supply -->
+                <div class="relative group w-72 h-72" data-aos="fade-up" data-aos-duration="1000">
+                    <div
+                        class="absolute inset-0 bg-[#8e44ad] rounded-full blur-[40px] opacity-0 group-hover:opacity-40 transition-opacity duration-300">
+                    </div>
+                    <div
+                        class="w-72 h-72 rounded-full border-[10px] border-black bg-white flex flex-col items-center justify-center p-6 transform group-hover:-translate-y-4 group-hover:rotate-[15deg] group-hover:scale-110 shadow-[15px_15px_0_rgba(0,0,0,1)] transition-all duration-500 ease-out z-10 relative">
+                        <span
+                            class="text-6xl mb-4 drop-shadow-md transform group-hover:scale-125 transition-transform duration-300">💎</span>
+                        <h4 class="text-4xl font-bold bangers tracking-widest text-[#8e44ad]">1 BILLION</h4>
+                        <p class="text-xl font-bold mt-2 uppercase text-gray-500 border-t-2 border-gray-300 pt-1 mt-1">Total Supply (TBA)</p>
+                    </div>
+                </div>
+                <!-- Card 2 LP -->
+                <div class="relative group w-72 h-72" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <div
+                        class="absolute inset-0 bg-[#ffd13b] rounded-full blur-[40px] opacity-0 group-hover:opacity-40 transition-opacity duration-300">
+                    </div>
+                    <div
+                        class="w-72 h-72 rounded-full border-[10px] border-black bg-[#3d7d52] flex flex-col items-center justify-center p-6 transform group-hover:-translate-y-4 group-hover:-rotate-[15deg] group-hover:scale-110 shadow-[15px_15px_0_rgba(0,0,0,1)] transition-all duration-500 ease-out z-10 relative text-white">
+                        <span
+                            class="text-6xl mb-4 drop-shadow-md transform group-hover:scale-125 transition-transform duration-300">🔥</span>
+                        <h4
+                            class="text-4xl font-bold bangers tracking-widest text-white drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                            100% BURNT</h4>
+                        <p
+                            class="text-xl font-bold mt-2 uppercase text-[#0d120e] border-t-2 border-[#0d120e] pt-1 mt-1">
+                            LP Burnt at Launch</p>
+                    </div>
+                </div>
+                <!-- Card 3 Taxes -->
+                <div class="relative group w-72 h-72" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                    <div
+                        class="absolute inset-0 bg-[#c0392b] rounded-full blur-[40px] opacity-0 group-hover:opacity-40 transition-opacity duration-300">
+                    </div>
+                    <div
+                        class="w-72 h-72 rounded-full border-[10px] border-black bg-white flex flex-col items-center justify-center p-6 transform group-hover:-translate-y-4 group-hover:rotate-[15deg] group-hover:scale-110 shadow-[15px_15px_0_rgba(0,0,0,1)] transition-all duration-500 ease-out z-10 relative">
+                        <span
+                            class="text-6xl mb-4 drop-shadow-md transform group-hover:scale-125 transition-transform duration-300">🚫</span>
+                        <h4 class="text-4xl font-bold bangers tracking-widest text-[#c0392b]">0% TAX</h4>
+                        <p class="text-xl font-bold mt-2 uppercase text-gray-500 border-t-2 border-gray-300 pt-1 mt-1">Buy & Sell</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Meme Stack Gallery (Investigation Board) -->
+    <section class="py-32 bg-[#1a1223] border-y-8 border-black overflow-hidden relative">
+        <div class="absolute inset-0 bg-black opacity-10"
+            style="background-image: radial-gradient(circle, #fff 3px, transparent 3px); background-size: 40px 40px;">
+        </div>
+
+        <div class="container mx-auto px-6 max-w-5xl relative z-10">
+            <h2 class="text-7xl lg:text-[6rem] text-center mb-6 drop-shadow-[5px_5px_0_rgba(0,0,0,1)] text-[#ffd13b]"
+                data-aos="fade-down">THE TROLL ARCHIVES
+            </h2>
+            <p class="text-center text-white text-2xl font-bold mb-16 marker max-w-2xl mx-auto drop-shadow-md"
+                data-aos="fade-up">Every legendary moment pinned. The villainous archives.</p>
+
+            <!-- Stack Container Wrapper -->
+            <div class="relative max-w-5xl mx-auto">
+
+                <!-- Decorative Elements -->
+                <!-- Sticky Note 1 -->
+                <div
+                    class="absolute -top-12 -left-12 lg:-left-24 z-20 w-40 h-40 bg-yellow-200 shadow-md transform -rotate-12 cursor-pointer hover:rotate-0 transition-transform flex items-center justify-center text-center p-4 comic-card">
+                    <p class="marker text-xl text-black">"U MAD BRO? TROLLS ONLY"</p>
+                </div>
+                <!-- Sticky Note 2 -->
+                <div
+                    class="absolute -bottom-16 -right-10 lg:-right-20 z-0 w-48 h-48 bg-[#ff99c8] shadow-md transform rotate-12 cursor-pointer hover:scale-110 transition-transform flex flex-col items-center justify-center text-center p-4 comic-card">
+                    <div
+                        class="w-12 h-4 bg-[#e0e0e0]/70 absolute top-[-10px] transform rotate-3 z-30 opacity-80 backdrop-blur-sm -translate-y-1">
+                    </div>
+                    <p class="marker text-2xl text-black border-red-500 border-4 rounded-full px-4 rotate-[-10deg]">
+                        10,000X</p>
+                </div>
+                <!-- Scrap Paper 1 -->
+                <div
+                    class="absolute top-1/2 -right-16 lg:-right-32 z-20 w-32 h-20 bg-gray-50 shadow-sm border border-gray-200 transform rotate-[15deg] rotate-y-[-10deg] flex items-center justify-center p-2 opacity-90 hidden md:flex">
+                    <div
+                        class="w-8 h-4 bg-yellow-900/40 absolute left-[-15px] transform -rotate-12 z-30 mix-blend-multiply rounded opacity-40">
+                    </div>
+                    <p class="marker text-sm text-blue-800 line-through">SELL AT 2X</p>
+                </div>
+
+                <!-- Stack Container -->
+                <div class="relative h-[400px] md:h-[550px] w-full max-w-4xl mx-auto mb-16 perspective-[1000px] mt-10">
+                    <template x-for="(meme, index) in memeStack" :key="index">
+                        <div class="absolute inset-0 comic-card bg-white p-4 pb-14 lg:pb-16 shadow-[8px_8px_0_rgba(0,0,0,1)] transition-all duration-700 ease-in-out cursor-pointer group"
+                            :class="[
+                            index < activeMemeIndex ? '-translate-x-[120%] opacity-0 rotate-[-20deg] scale-90 pointer-events-none' : meme.angle,
+                            activeMemeIndex === index ? 'hover:scale-[1.02] shadow-[15px_15px_0_rgba(0,0,0,1)]' : 'scale-[0.98]'
+                        ]" :style="`z-index: ${50 - index};`" @click="imgSource = meme.img; lightbox = true"
+                            x-show="index >= activeMemeIndex - 1">
+
+                            <!-- Pinned Thumbtack Base -->
+                            <div
+                                class="absolute -top-4 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none group-hover:-translate-y-1 transition-transform">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-red-600 border-4 border-black shadow-[2px_2px_0_rgba(0,0,0,1)] inset-shadow-inner flex items-center justify-center">
+                                    <div class="w-2 h-2 rounded-full bg-red-800"></div>
+                                </div>
+                                <!-- Pin shadow -->
+                                <div
+                                    class="absolute w-1 h-3 bg-black opacity-50 top-full left-1/2 transform -translate-x-1/2 rounded-full">
+                                </div>
+                            </div>
+
+                            <!-- Image Frame -->
+                            <div
+                                class="relative w-full h-[88%] md:h-[90%] border-4 border-black overflow-hidden bg-gray-100 transition-transform duration-300 shadow-inner">
+                                <img :src="meme.img" class="w-full h-full object-cover">
+                            </div>
+
+                            <!-- Label Overlay -->
+                            <div
+                                class="absolute bottom-3 left-1/2 transform -translate-x-1/2 w-4/5 md:w-1/2 group-hover:scale-110 transition-transform duration-300">
+                                <p class="text-center marker text-xl py-1 md:py-2 border-border-black font-bold uppercase drop-shadow-sm border-2 border-black"
+                                    :class="meme.color" x-text="meme.title"></p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Interactive Gallery Controls -->
+                <div class="flex justify-center items-center gap-8 relative z-50">
+                    <button @click="activeMemeIndex = activeMemeIndex > 0 ? activeMemeIndex - 1 : memeStack.length - 1"
+                        class="btn-main px-6 py-4 rounded-full flex items-center justify-center border-4 border-black text-3xl group bg-white hover:bg-yellow-300 transition-colors shadow-[6px_6px_0_rgba(0,0,0,1)]">
+                        <span class="transform group-hover:-translate-x-2 transition-transform">⬅️</span>
+                    </button>
+
+                    <div
+                        class="text-white text-3xl bangers tracking-widest bg-black px-6 py-2 border-4 border-[#ffd13b] rounded-xl shadow-[4px_4px_0_rgba(253,209,59,1)]">
+                        <span x-text="activeMemeIndex + 1"></span> / <span x-text="memeStack.length"></span>
+                    </div>
+
+                    <button @click="activeMemeIndex = activeMemeIndex < memeStack.length - 1 ? activeMemeIndex + 1 : 0"
+                        class="btn-main px-6 py-4 rounded-full flex items-center justify-center border-4 border-black text-3xl group bg-[#ffd13b] hover:bg-white transition-colors shadow-[6px_6px_0_rgba(0,0,0,1)]">
+                        <span class="transform group-hover:translate-x-2 transition-transform">➡️</span>
+                    </button>
+                </div>
+            </div>
+    </section>
+
+    <!-- 7. Roadmap Timeline -->
+    <section id="roadmap" class="py-32 bg-[#121b14] text-white relative border-b-8 border-black overflow-hidden">
+        <div
+            class="absolute top-0 right-0 w-[800px] h-[800px] bg-[#8e44ad]/10 rounded-full blur-[100px] opacity-60 -translate-y-1/2 translate-x-1/3">
+        </div>
+        <div class="container mx-auto px-6 max-w-5xl relative z-10">
+            <h2 class="text-7xl md:text-[6rem] text-center mb-28 drop-shadow-[4px_4px_0_rgba(0,0,0,0.1)] text-white">THE <span
+                    class="text-[#ffd13b]">CONQUEST PLAN</span></h2>
+
+            <div class="relative border-l-[10px] border-black ml-4 md:ml-0 md:left-1/2 md:-translate-x-1/2">
+                <!-- Step 1 -->
+                <div class="mb-24 md:w-1/2 md:ml-auto md:pl-16 relative" data-aos="fade-left" data-aos-offset="200">
+                    <div
+                        class="absolute -left-[3.1rem] md:-left-8 top-4 w-20 h-20 bg-[#ffd13b] text-black border-[6px] border-black rounded-full flex items-center justify-center text-4xl bangers shadow-[5px_5px_0_rgba(0,0,0,1)] z-10 hover:scale-110 transition-transform">
+                        1</div>
+                    <div class="comic-card p-8 lg:p-10 bg-white text-black">
+                        <h3 class="text-4xl mb-4 text-[#3d7d52]">PHASE 1: GENESIS OF CHAOS</h3>
+                        <p class="text-xl font-bold text-gray-700 leading-relaxed">Rallying the villain army. Launching our socials (X/Twitter & Telegram), build-up of loyal degens, and community takeovers to spread the word.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="mb-24 md:w-1/2 md:mr-auto md:pr-16 relative text-left md:text-right" data-aos="fade-right"
+                     data-aos-offset="200">
+                    <div
+                        class="absolute -left-[3.1rem] md:left-auto md:-right-8 top-4 w-20 h-20 bg-[#8e44ad] border-[6px] border-black rounded-full flex items-center justify-center text-4xl bangers shadow-[5px_5px_0_rgba(0,0,0,1)] z-10 hover:scale-110 transition-transform text-white drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                        2</div>
+                    <div class="comic-card p-8 lg:p-10 bg-white text-black text-left">
+                        <h3 class="text-4xl mb-4 text-[#8e44ad]">PHASE 2: THE INVASION</h3>
+                        <p class="text-xl font-bold text-gray-700 leading-relaxed">Official token launch on Uniswap. 100% liquidity burnt instantly and contract renounced. CoinGecko/CoinMarketCap listings and trending campaign on X.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="mb-10 md:w-1/2 md:ml-auto md:pl-16 relative" data-aos="fade-left" data-aos-offset="200">
+                    <div
+                        class="absolute -left-[3.1rem] md:-left-8 top-4 w-20 h-20 bg-[#ffd13b] text-black border-[6px] border-black rounded-full flex items-center justify-center text-4xl bangers shadow-[5px_5px_0_rgba(0,0,0,1)] z-10 hover:scale-110 transition-transform">
+                        3</div>
+                    <div class="comic-card p-8 lg:p-10 bg-white text-black border-dashed border-[5px]">
+                        <h3 class="text-4xl mb-4 text-[#c0392b]">PHASE 3: DOMINATION</h3>
+                        <p class="text-xl font-bold text-gray-700 leading-relaxed">Tier-1 CEX listings. Massive global trolling operations, billboard campaign, and conquering the meme hierarchy to establish Troll King as the final boss.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slanted Marquee 3 (Divider) -->
+    <div class="relative z-30 -mt-6 -mb-6 transform -rotate-1.5 overflow-hidden bg-[#c0392b] text-white border-y-4 border-black py-3 shadow-[0_4px_15px_rgba(0,0,0,0.6)]">
+        <div class="marquee-inner bangers text-2xl whitespace-nowrap">
+            🔥 CONQUERING CRYPTO // EVERY CYCLE NEEDS A VILLAIN // U MAD BRO? // THE CHRONICLES OF $TROLLKING // CONQUERING CRYPTO // EVERY CYCLE NEEDS A VILLAIN //
+        </div>
+    </div>
+
+    <!-- 8. Social Proof (Satire News) -->
+    <section class="py-24 bg-black overflow-hidden border-b-8 border-black">
+        <h2
+            class="text-5xl lg:text-6xl text-center text-[#ffd13b] mb-16 drop-shadow-[2px_2px_0_rgba(255,255,255,0.2)]">
+            PROPAGANDA & NEWS (SATIRE)</h2>
+        <div class="flex gap-10 px-4 animate-[marquee_25s_linear_infinite] whitespace-nowrap items-center h-full">
+            <div class="inline-block comic-card p-10 min-w-[400px] bg-white transform rotate-1 hover:rotate-0">
+                <h4
+                    class="font-bold border-b-4 border-black mb-4 uppercase text-2xl bangers tracking-widest text-[#c0392b]">
+                    The Degen Times</h4>
+                <p class="text-xl marker text-gray-800 whitespace-normal leading-relaxed">"Local man answers 'U MAD BRO?' to tax auditor, receives legendary status and $TROLLKING crown."</p>
+            </div>
+            <div class="inline-block comic-card p-10 min-w-[400px] bg-yellow-100 transform -rotate-1 hover:rotate-0">
+                <h4
+                    class="font-bold border-b-4 border-black mb-4 uppercase text-2xl bangers tracking-widest text-[#8e44ad]">
+                    Troll Weekly</h4>
+                <p class="text-xl marker text-gray-800 whitespace-normal leading-relaxed">"Scientists confirm: The Troll King is officially the final boss of the 2026 bull run."</p>
+            </div>
+            <div class="inline-block comic-card p-10 min-w-[400px] bg-white transform rotate-2 hover:rotate-0">
+                <h4
+                    class="font-bold border-b-4 border-black mb-4 uppercase text-2xl bangers tracking-widest text-[#3d7d52]">
+                    Wall St. Chaos</h4>
+                <p class="text-xl marker text-gray-800 whitespace-normal leading-relaxed">"SEC investigates why every green candle looks like a crown. Troll King refuses to comment."</p>
+            </div>
+            <div class="inline-block comic-card p-10 min-w-[400px] bg-yellow-100 transform -rotate-2 hover:rotate-0">
+                <h4
+                    class="font-bold border-b-4 border-black mb-4 uppercase text-2xl bangers tracking-widest text-[#c0392b]">
+                    CNN (Fake)</h4>
+                <p class="text-xl marker text-gray-800 whitespace-normal leading-relaxed">"Trolls with gold crowns officially declared as the global reserve authority."</p>
+            </div>
+            <!-- Duplicates to make marquee smooth -->
+            <div class="inline-block comic-card p-10 min-w-[400px] bg-white transform rotate-1 hover:rotate-0">
+                <h4
+                    class="font-bold border-b-4 border-black mb-4 uppercase text-2xl bangers tracking-widest text-[#c0392b]">
+                    The Degen Times</h4>
+                <p class="text-xl marker text-gray-800 whitespace-normal leading-relaxed">"Local man answers 'U MAD BRO?' to tax auditor, receives legendary status and $TROLLKING crown."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. How To Buy -->
+    <section id="buy" class="py-32 bg-[#0d120e] text-white border-b-8 border-black relative overflow-hidden">
+        <!-- Dot Matrix Background -->
+        <div class="absolute inset-0 bg-black opacity-10"
+            style="background-image: radial-gradient(circle, #fff 3px, transparent 3px); background-size: 40px 40px;">
+        </div>
+        <div class="container mx-auto px-6 max-w-7xl relative z-10">
+            <h2 class="text-7xl lg:text-[6rem] text-center mb-24 drop-shadow-[5px_5px_0_rgba(0,0,0,1)] text-[#ffd13b]">
+                <span class="underline decoration-wavy decoration-[#ffd13b] border-black">PREPARE FOR CONQUEST</span>
+            </h2>
+            <div class="grid md:grid-cols-3 gap-10 lg:gap-12 text-black">
+                <div class="comic-card p-10 bg-white flex flex-col items-center text-center" data-aos="zoom-in"
+                    data-aos-duration="600">
+                    <div
+                        class="w-24 h-24 bg-[#ffd13b] rounded-full border-4 border-black flex items-center justify-center text-4xl mb-6 shadow-[4px_4px_0_rgba(0,0,0,1)]">
+                        1</div>
+                    <h3 class="text-3xl lg:text-4xl mb-4 uppercase">LOAD WALLET</h3>
+                    <p class="text-xl font-bold text-gray-600 leading-relaxed">Get some ETH in your Metamask or Phantom wallet. Prepare your bag for the conquest.</p>
+                </div>
+                <div class="comic-card p-10 bg-white flex flex-col items-center text-center" data-aos="zoom-in"
+                    data-aos-duration="600" data-aos-delay="150">
+                    <div
+                        class="w-24 h-24 bg-[#8e44ad] text-white rounded-full border-4 border-black flex items-center justify-center text-4xl mb-6 shadow-[4px_4px_0_rgba(0,0,0,1)]">
+                        2</div>
+                    <h3 class="text-3xl lg:text-4xl mb-4 uppercase">SWAP ON UNISWAP</h3>
+                    <p class="text-xl font-bold text-gray-600 leading-relaxed">Connect to Uniswap. Paste our official CA (TBA at launch). Set slippage to 'Whatever it takes'.</p>
+                </div>
+                <div class="comic-card p-10 bg-white flex flex-col items-center text-center" data-aos="zoom-in"
+                    data-aos-duration="600" data-aos-delay="300">
+                    <div
+                        class="w-24 h-24 bg-[#c0392b] text-white rounded-full border-4 border-black flex items-center justify-center text-5xl mb-6 shadow-[4px_4px_0_rgba(0,0,0,1)]">
+                        👑</div>
+                    <h3 class="text-3xl lg:text-4xl mb-4 uppercase">TROLL FOR GLORY</h3>
+                    <p class="text-xl font-bold text-gray-600 leading-relaxed">Sit back, relax, watch the green candles paint the sky, and ask the community: U MAD BRO?</p>
+                </div>
+            </div>
+
+            <div class="mt-20 text-center" data-aos="fade-up">
+                <div
+                    class="inline-block bg-white text-black border-[6px] border-black rounded-3xl p-6 lg:p-10 shadow-[8px_8px_0_rgba(0,0,0,1)] transform hover:scale-105 transition-transform duration-300">
+                    <p class="text-2xl font-bold uppercase mb-4 text-gray-500">Official Contract Address</p>
+                    <div class="flex items-center gap-4 bg-gray-100 p-4 rounded-xl border-4 border-black">
+                        <code
+                            class="text-xl md:text-3xl text-[#c0392b] break-all select-all font-mono font-bold">TO BE ANNOUNCED</code>
+                        <button class="btn-main px-6 py-2 text-2xl"
+                            onclick="alert('Troll King token has not launched yet! The Contract Address will be announced on our official Telegram and X. Join now to stay updated!')">GET ALERTS</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. External Links / Socials -->
+    <section class="py-32 bg-gradient-to-br from-[#191124] via-[#0d0914] to-black text-white border-b-8 border-black relative overflow-hidden">
+        <!-- Elegant subtle glowing orb & Starfield -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03)_1px,_transparent_1px)]"
+            style="background-size: 24px 24px;"></div>
+        <div
+            class="absolute top-0 right-0 w-[600px] h-[600px] bg-[#3d7d52]/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen animate-pulse">
+        </div>
+        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#ffd13b]/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen animate-pulse"
+            style="animation-delay: 2s;">
+        </div>
+
+        <div class="container mx-auto px-6 text-center max-w-7xl relative z-10">
+            <h2 class="text-[5rem] lg:text-[7rem] mb-4 bg-gradient-to-br from-[#ffd13b] via-[#ffd13b] to-yellow-600 text-transparent bg-clip-text bangers tracking-widest leading-none drop-shadow-2xl"
+                data-aos="zoom-in" data-aos-duration="1000">JOIN THE CONQUEST
+            </h2>
+            <p class="text-xl lg:text-3xl text-white marker mb-24 font-bold" data-aos="fade-up" data-aos-delay="200">
+                Stop coping. Start trolling. The castle doors are open.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 relative px-4 max-w-4xl mx-auto">
+                <!-- Twitter -->
+                <a href="https://x.com/UMADBRO1023/status/2058251365650993647?s=20" target="_blank" data-aos="fade-up" data-aos-delay="0"
+                    class="group relative h-56 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden transform hover:-translate-y-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_rgba(29,161,242,0.3)] hover:border-[#1DA1F2]/50">
+                    <!-- Hover background glow -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-[#1DA1F2]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                    <div
+                        class="absolute inset-0 flex flex-col items-center justify-center transition-transform duration-500">
+                        <div
+                            class="w-20 h-20 mb-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-inner group-hover:scale-110 group-hover:bg-[#1DA1F2]/20 transition-all duration-500">
+                            <span
+                                class="text-4xl drop-shadow-[0_0_15px_rgba(29,161,242,0.8)] filter grayscale group-hover:grayscale-0 transition-all duration-500">🐦</span>
+                        </div>
+                        <span
+                            class="text-2xl lg:text-3xl font-bold font-sans text-blue-400 group-hover:text-[#ffd13b] tracking-widest transition-colors duration-300">TWITTER / X</span>
+                    </div>
+                </a>
+
+                <!-- Telegram -->
+                <a href="https://t.me/trollkingcom" target="_blank" data-aos="fade-up" data-aos-delay="100"
+                    class="group relative h-56 rounded-[2.5rem] border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden transform hover:-translate-y-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_rgba(0,136,204,0.3)] hover:border-[#0088cc]/50">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-[#0088cc]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                    <div
+                        class="absolute inset-0 flex flex-col items-center justify-center transition-transform duration-500">
+                        <div
+                            class="w-20 h-20 mb-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-inner group-hover:scale-110 group-hover:bg-[#0088cc]/20 transition-all duration-500">
+                            <span
+                                class="text-4xl drop-shadow-[0_0_15px_rgba(0,136,204,0.8)] filter grayscale group-hover:grayscale-0 transition-all duration-500">✈️</span>
+                        </div>
+                        <span
+                            class="text-2xl lg:text-3xl font-bold font-sans text-cyan-400 group-hover:text-[#ffd13b] tracking-widest transition-colors duration-300">TELEGRAM</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. FAQ Accordion -->
+    <section class="py-32 bg-[#fafafa] text-black border-y-8 border-black">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h2 class="text-6xl md:text-7xl text-center mb-20 drop-shadow-[3px_3px_0_rgba(0,0,0,0.2)]"
+                data-aos="fade-down">COMMON DOUBTS
+            </h2>
+            <div class="space-y-6">
+                <!-- FAQ 1 -->
+                <div data-aos="fade-left" data-aos-delay="0"
+                    class="comic-card border-[5px] border-black rounded-2xl overflow-hidden shadow-[8px_8px_0_rgba(0,0,0,1)] transition-all hover:scale-[1.02] transform">
+                    <button @click="faqOpen === 1 ? faqOpen = null : faqOpen = 1"
+                        class="w-full p-8 text-left text-3xl font-bold flex justify-between items-center bg-yellow-300 transition-colors"
+                        :class="faqOpen === 1 ? 'bg-yellow-400' : 'hover:bg-yellow-400'">
+                        Is this a rug?
+                        <span
+                            class="text-4xl bangers bg-white border-4 border-black w-12 h-12 flex items-center justify-center rounded-full shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform duration-300"
+                            :class="faqOpen === 1 ? 'rotate-180' : ''" x-text="faqOpen === 1 ? '-' : '+'"></span>
+                    </button>
+                    <div x-show="faqOpen === 1" x-collapse>
+                        <div
+                            class="p-8 text-2xl font-bold bg-white border-t-[5px] border-black text-gray-700 leading-relaxed shadow-inner">
+                            <span class="typing marker text-xl text-black">No, rugs are for houses. This is a pond. LP
+                                is burnt, dev is out, community is in charge.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div data-aos="fade-right" data-aos-delay="100"
+                    class="comic-card border-[5px] border-black rounded-2xl overflow-hidden shadow-[8px_8px_0_rgba(0,0,0,1)] transition-all hover:scale-[1.02] transform">
+                    <button @click="faqOpen === 2 ? faqOpen = null : faqOpen = 2"
+                        class="w-full p-8 text-left text-3xl font-bold flex justify-between items-center bg-[#8e44ad] text-white transition-colors"
+                        :class="faqOpen === 2 ? 'bg-[#9b59b6]' : 'hover:bg-[#9b59b6]'">
+                        Will I get rich?
+                        <span
+                            class="text-4xl bangers bg-white border-4 border-black w-12 h-12 flex items-center justify-center rounded-full shadow-[4px_4px_0_rgba(0,0,0,1)] text-black transition-transform duration-300"
+                            :class="faqOpen === 2 ? 'rotate-180' : ''" x-text="faqOpen === 2 ? '-' : '+'"></span>
+                    </button>
+                    <div x-show="faqOpen === 2" x-collapse>
+                        <div
+                            class="p-8 text-2xl font-bold bg-white border-t-[5px] border-black text-gray-700 leading-relaxed shadow-inner">
+                            <span class="typing marker text-xl text-black">We aren't financial advisors. We are trolls on the internet. And trolls conquer charts.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div data-aos="fade-left" data-aos-delay="200"
+                    class="comic-card border-[5px] border-black rounded-2xl overflow-hidden shadow-[8px_8px_0_rgba(0,0,0,1)] transition-all hover:scale-[1.02] transform">
+                    <button @click="faqOpen === 3 ? faqOpen = null : faqOpen = 3"
+                        class="w-full p-8 text-left text-3xl font-bold flex justify-between items-center bg-[#c0392b] text-white transition-colors"
+                        :class="faqOpen === 3 ? 'bg-[#d9534f]' : 'hover:bg-[#d9534f]'">
+                        Where is the utility?
+                        <span
+                            class="text-4xl bangers bg-white border-4 border-black w-12 h-12 flex items-center justify-center rounded-full shadow-[4px_4px_0_rgba(0,0,0,1)] text-black transition-transform duration-300"
+                            :class="faqOpen === 3 ? 'rotate-180' : ''" x-text="faqOpen === 3 ? '-' : '+'"></span>
+                    </button>
+                    <div x-show="faqOpen === 3" x-collapse>
+                        <div
+                            class="p-8 text-2xl font-bold bg-white border-t-[5px] border-black text-gray-700 leading-relaxed shadow-inner">
+                            <span class="typing marker text-xl text-black">The utility is absolute market domination. And asking "U MAD BRO?" to everyone who doubted.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. Final CTA Strip -->
+    <section
+        class="py-40 bg-gradient-to-br from-[#ffd13b] via-yellow-400 to-yellow-500 text-black border-y-8 border-black relative overflow-hidden flex items-center justify-center min-h-[70vh]">
+        <!-- Elegant, Simple Background Elements -->
+        <div class="absolute inset-0 pointer-events-none"
+            style="background-image: radial-gradient(rgba(0,0,0,0.05) 2px, transparent 2px); background-size: 30px 30px;">
+        </div>
+        <div
+            class="absolute left-0 top-0 w-[600px] h-[600px] bg-white rounded-full blur-[150px] opacity-40 mix-blend-overlay animate-pulse">
+        </div>
+        <div class="absolute right-0 bottom-0 w-[600px] h-[600px] bg-white rounded-full blur-[150px] opacity-40 mix-blend-overlay animate-pulse"
+            style="animation-delay: 2s;"></div>
+
+        <div class="container mx-auto px-6 text-center relative z-10 flex flex-col items-center max-w-4xl">
+            <h2 class="text-[5rem] md:text-[7rem] lg:text-[8rem] mb-6 drop-shadow-[5px_5px_0_rgba(255,255,255,1)] text-black leading-none bangers tracking-wide"
+                data-aos="fade-up" data-aos-duration="1000">
+                SUBMIT TO <br />THE KING.
+            </h2>
+            <p class="text-2xl lg:text-3xl font-bold font-sans text-gray-800 mb-14 drop-shadow-sm opacity-90 marker italic"
+                data-aos="fade-up" data-aos-delay="150">
+                "The good guys got soft. The throne is empty. It's time to join the villains."
+            </p>
+
+            <div data-aos="zoom-in" data-aos-delay="300" class="relative group mt-6">
+                <!-- Outer Glow -->
+                <div
+                    class="absolute -inset-2 bg-black rounded-full blur-xl opacity-30 group-hover:opacity-60 transition duration-500">
+                </div>
+                <!-- Button -->
+                <a href="https://t.me/trollkingcom" target="_blank"
+                    class="relative px-16 lg:px-24 py-8 lg:py-10 text-[2.5rem] lg:text-[3.5rem] bg-black text-white rounded-full hover:bg-white hover:text-black border-8 border-black transition-all duration-300 transform hover:-translate-y-2 shadow-[10px_10px_0_rgba(0,0,0,1)] hover:shadow-[0px_0px_0_rgba(0,0,0,1)] bangers tracking-widest inline-flex items-center gap-4 group-hover:scale-105">
+                    JOIN THE Telegram
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-10 h-10 transform group-hover:translate-x-2 transition-transform" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13. Footer -->
+    <footer class="bg-black text-white py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[#121b14] opacity-20 pointer-events-none"
+            style="background-image: radial-gradient(circle, #3d7d52 1px, transparent 1px); background-size: 20px 20px;">
+        </div>
+        <div class="container mx-auto px-6 relative z-10 max-w-7xl">
+            <div class="grid md:grid-cols-4 gap-16 mb-16">
+                <div class="md:col-span-1">
+                    <h3 class="text-5xl mb-6 text-[#ffd13b] drop-shadow-[2px_2px_0_rgba(61,125,82,1)]">TROLL KING</h3>
+                    <p class="opacity-80 marker text-2xl text-gray-400">The final boss of the blockchain.</p>
+                </div>
+                <div>
+                    <h4
+                        class="text-2xl font-black mb-6 uppercase text-[#3d7d52] tracking-widest border-b-2 border-green-900 pb-2 inline-block">
+                        LINKS</h4>
+                    <ul class="space-y-4 font-bold text-xl">
+                        <li><a href="#" onclick="alert('Contract is TBA. Follow socials for launch details!'); return false;"
+                                class="hover:text-[#ffd13b] hover:translate-x-2 transition-transform inline-block">Etherscan
+                                →</a></li>
+                        <li><a href="#" onclick="alert('Launch pending. Chart and pool will be updated soon!'); return false;"
+                                class="hover:text-[#ffd13b] hover:translate-x-2 transition-transform inline-block">Dextools
+                                →</a></li>
+                        <li><a href="#" onclick="alert('Launch pending. Tracker will go live post-launch!'); return false;"
+                                class="hover:text-[#ffd13b] hover:translate-x-2 transition-transform inline-block">Coinmarketcap
+                                →</a></li>
+                    </ul>
+                </div>
+                <div class="md:col-span-2">
+                    <h4
+                        class="text-2xl font-black mb-6 uppercase text-[#c0392b] tracking-widest border-b-2 border-red-900 pb-2 inline-block">
+                        DISCLAIMER (THE LAWYER STUFF)</h4>
+                    <p class="text-sm lg:text-base font-bold text-gray-500 leading-loose">
+                        $TROLLKING is a meme coin with no intrinsic value or expectation of financial return. There is no
+                        formal team or roadmap. The coin is completely useless and for entertainment and trolling purposes only. Do
+                        not invest money you can't afford to lose. Also, trolls are not legal tender.
+                    </p>
+                </div>
+            </div>
+            <div class="text-center pt-12 border-t-[3px] border-white/10 flex flex-col items-center">
+                <p class="text-3xl marker text-gray-400 mb-4">MADE WITH <span
+                        class="text-[#ffd13b] animate-bounce inline-block">👑</span> FOR THE VILLAINS OF THE WORLD</p>
+                <p class="text-sm font-bold text-gray-700 uppercase tracking-widest">© 2026 TROLL KING. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div x-show="lightbox" x-transition.opacity
+        class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-6 backdrop-blur-sm"
+        @click="lightbox = false" style="display: none;">
+        <div class="relative max-w-5xl w-full" @click.stop>
+            <img :src="imgSource"
+                class="w-full comic-card border-[8px] bg-white rounded-3xl shadow-[0_0_50px_rgba(253,209,59,0.4)]">
+            <button
+                class="absolute -top-16 right-0 text-white text-6xl hover:text-[#ffd13b] transition-colors drop-shadow-[2px_2px_0_rgba(0,0,0,1)]"
+                @click="lightbox = false">&times;</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100,
+            easing: 'ease-out-cubic'
+        });
+
+        // Elegant Smooth Scrolling With Offset & Active state
+        document.addEventListener("DOMContentLoaded", () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section[id]');
+            const headerOffset = 100;
+
+            // Click Effect -> Smooth Scroll
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (!targetId || targetId === '#') return;
+
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Scroll Observer -> Manage Active Class Elegantly
+            window.addEventListener('scroll', () => {
+                let currentSection = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    // Trigger active state when section gets near top
+                    if (pageYOffset >= (sectionTop - headerOffset - 100)) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Spawning Floating Text on Mouse Click
+            const words = ["U MAD BRO?", "COPE", "VILLAIN", "10000X", "TROLL", "👑", "😈", "TBA", "CONQUEST", "$TROLLKING"];
+            document.addEventListener("click", (e) => {
+                if (e.target.closest('a') || e.target.closest('button') || e.target.closest('iframe')) return;
+                
+                const el = document.createElement("div");
+                el.className = "click-spawn";
+                el.innerText = words[Math.floor(Math.random() * words.length)];
+                
+                if (el.innerText === "COPE" || el.innerText === "U MAD BRO?") {
+                    el.style.color = "var(--troll-red)";
+                } else if (el.innerText === "😈" || el.innerText === "VILLAIN") {
+                    el.style.color = "var(--troll-purple)";
+                } else {
+                    el.style.color = "var(--troll-yellow)";
+                }
+                
+                el.style.left = `${e.pageX}px`;
+                el.style.top = `${e.pageY}px`;
+                document.body.appendChild(el);
+                
+                setTimeout(() => el.remove(), 1200);
+            });
+
+            // Spawning Background Floating Particles in sections
+            const particleContainers = [document.querySelector('#home'), document.querySelector('#about'), document.querySelector('#roadmap')];
+            const particleSymbols = ["👑", "😈", "COPE", "U MAD BRO?"];
+            
+            particleContainers.forEach(container => {
+                if (!container) return;
+                for (let i = 0; i < 4; i++) {
+                    createParticle(container);
+                }
+            });
+
+            function createParticle(container) {
+                const p = document.createElement("div");
+                p.className = "floating-particle";
+                p.innerText = particleSymbols[Math.floor(Math.random() * particleSymbols.length)];
+                p.style.left = `${Math.random() * 100}%`;
+                p.style.bottom = `${Math.random() * 30}%`;
+                p.style.animationDelay = `${Math.random() * 10}s`;
+                p.style.animationDuration = `${10 + Math.random() * 15}s`;
+                p.style.fontSize = `${1.2 + Math.random() * 1.5}rem`;
+                
+                container.appendChild(p);
+                
+                p.addEventListener('animationiteration', () => {
+                    p.style.left = `${Math.random() * 100}%`;
+                    p.style.bottom = `-50px`;
+                });
+            }
+        });
+
+        // Persistent Typing Effect: Re-triggers whenever element becomes visible (e.g., FAQ opened)
+        document.querySelectorAll('.typing').forEach(el => {
+            const fullText = el.innerText;
+            el.innerText = '';
+            let timer = null;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Clear existing timer and reset text to start fresh
+                        clearInterval(timer);
+                        el.innerText = '';
+                        let i = 0;
+
+                        // Small delay to let the opening animation (like x-collapse) settle
+                        setTimeout(() => {
+                            timer = setInterval(() => {
+                                if (i < fullText.length) {
+                                    el.innerText += fullText.charAt(i);
+                                    i++;
+                                } else {
+                                    clearInterval(timer);
+                                }
+                            }, 25);
+                        }, 100);
+                    } else {
+                        // Clean up when hidden
+                        clearInterval(timer);
+                        el.innerText = '';
+                    }
+                });
+            }, { threshold: 0.01 });
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>
